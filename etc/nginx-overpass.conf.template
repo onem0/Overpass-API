@@ -31,8 +31,6 @@ http {
     gzip_proxied any;
     gzip_types *;
 
-    client_max_body_size 10M;
-
 	server {
 		listen       80;
 		server_name  localhost;
@@ -60,6 +58,8 @@ http {
             fastcgi_pass   unix:/nginx/fcgiwrap.socket;
             fastcgi_read_timeout ${OVERPASS_MAX_TIMEOUT};
             fastcgi_send_timeout ${OVERPASS_MAX_TIMEOUT};
+
+            client_max_body_size ${OVERPASS_MAX_SIZE};
 		}
 
 		location /api/ {

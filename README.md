@@ -21,6 +21,7 @@ The following enviroment variables can be used to customize the setup:
 * `OVERPASS_TIME` - set the maximum amount of time units (available time).
 * `OVERPASS_SPACE` - set the maximum amount of RAM (available space) in bytes.
 * `OVERPASS_MAX_TIMEOUT` - set the maximum timeout for queries (default: 1000s). Translates to send/recv timeout for fastcgi_wrap.
+* `OVERPASS_MAX_SIZE` - set the maximum size for queries (default: 10M). Translates to nginx [`client_max_body_size`](https://nginx.org/en/docs/http/ngx_http_core_module.html#client_max_body_size).
 * `OVERPASS_USE_AREAS` - if `false` initial area generation and the area updater process will be disabled. Default `true`.
 * `OVERPASS_HEALTHCHECK` - shell commands to execute to verify that image is healthy. `exit 1` in case of failures, `exit 0` when container is healthy. Default healthcheck queries overpass and verifies that there is reponse returned
 * `OVERPASS_STOP_AFTER_INIT` - if `false` the container will keep runing after init is complete. Otherwise container will be stopped after initialization process is complete. Default `true`
