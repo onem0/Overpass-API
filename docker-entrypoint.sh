@@ -10,7 +10,7 @@ OVERPASS_CLONE_SOURCE=${OVERPASS_CLONE_SOURCE:-https://dev.overpass-api.de/api_d
 
 # this is used by other processes, so needs to be exported
 export OVERPASS_MAX_TIMEOUT=${OVERPASS_MAX_TIMEOUT:-1000s}
-export OVERPASS_MAX_SIZE=${OVERPASS_MAX_SIZE:-10M}
+export OVERPASS_MAX_SIZE=${OVERPASS_MAX_SIZE:-1M}
 
 if [[ "$OVERPASS_META" == "attic" ]]; then
 	META="--keep-attic"
