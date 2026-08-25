@@ -1,27 +1,20 @@
-volumes:
-  overpass-db:
-
-version: '3.8'
 services:
   overpass:
-    # specify the image here
     image: wiktorn/overpass-api:0.7.62
     container_name: overpass
-    # uncomment if you want to build the image yourself
-    # build: .
-    ports:
-      - 12345:80
+    restart: unless-stopped
+
     volumes:
-      # use a docker managed volume
-      - overpass-db:/db
+      - /srv/overpass/db:/db
+
     environment:
       - OVERPASS_META=no
-      - OVERPASS_MODE=init
-      - OVERPASS_PLANET_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf
-      - OVERPASS_DIFF_URL=http://download.openstreetmap.fr/replication/europe/monaco/minute/
+      - OVERPASS_MODE=clone
+      - OVERPASS_DIFF_URL=https://planet.openstreetmap.org/replication/minute/
       - OVERPASS_UPDATE_SLEEP=3600
       - OVERPASS_USE_AREAS=false
-      - OVERPASS_PLANET_PREPROCESS='mv /db/planet.osm.bz2 /db/planet.osm.pbf && osmium cat -o /db/planet.osm.bz2 /db/planet.osm.pbf && rm /db/planet.osm.pbf'
+      - OVERPASS_STOP_AFTER_INIT=false
+
     healthcheck:
-      test: curl --noproxy '*' -qfg 'http://localhost/api/interpreter?data=[out:json];node(1);out;' | jq '.generator' |grep -q Overpass || exit 1
+      test: curl --noproxy '*' -qfg 'http://localhost/api/interpreter?data=[out:json];node(1);out;' | jq '.generator' | grep -q Overpass || exit 1
       start_period: 48h
