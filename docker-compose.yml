@@ -6,7 +6,7 @@ services:
 
     labels:
       caddy_0.@unauthorized.not: "header X-Overpass-Key ${OVERPASS_API_KEY}"
-      caddy_0.respond: '@unauthorized "Forbidden" 403'
+      caddy_0.handle_path.respond: '@unauthorized "Forbidden" 403'
 
     volumes:
       - '/srv/overpass/db:/db'
