@@ -4,6 +4,10 @@ services:
     container_name: overpass
     restart: unless-stopped
 
+    labels:
+      caddy_0.@unauthorized.not.header: "X-Overpass-Key ${OVERPASS_API_KEY}"
+      caddy_0.respond: '@unauthorized "Forbidden" 403'
+
     volumes:
       - /srv/overpass/db:/db
 
