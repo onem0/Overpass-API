@@ -1,24 +1,24 @@
 services:
   overpass:
-    image: wiktorn/overpass-api:0.7.62
+    image: 'wiktorn/overpass-api:0.7.62'
     container_name: overpass
     restart: unless-stopped
 
     labels:
-      caddy_0.@unauthorized.not.header: "X-Overpass-Key ${OVERPASS_API_KEY}"
+      caddy_0.@unauthorized.not: "header X-Overpass-Key ${OVERPASS_API_KEY}"
       caddy_0.respond: '@unauthorized "Forbidden" 403'
 
     volumes:
-      - /srv/overpass/db:/db
+      - '/srv/overpass/db:/db'
 
     environment:
       - OVERPASS_META=no
       - OVERPASS_MODE=clone
-      - OVERPASS_DIFF_URL=https://planet.openstreetmap.org/replication/minute/
+      - 'OVERPASS_DIFF_URL=https://planet.openstreetmap.org/replication/minute/'
       - OVERPASS_UPDATE_SLEEP=3600
       - OVERPASS_USE_AREAS=false
       - OVERPASS_STOP_AFTER_INIT=false
 
     healthcheck:
-      test: curl --noproxy '*' -qfg 'http://localhost/api/interpreter?data=[out:json];node(1);out;' | jq '.generator' | grep -q Overpass || exit 1
+      test: "curl --noproxy '*' -qfg 'http://localhost/api/interpreter?data=[out:json];node(1);out;' | jq '.generator' | grep -q Overpass || exit 1"
       start_period: 48h
