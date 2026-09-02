@@ -12,11 +12,21 @@ services:
       - '/srv/overpass/db:/db'
 
     environment:
+      # OSM IDs sind auch mit META=no vorhanden.
+      # META betrifft nur zusätzliche Infos wie User, Changeset,
+      # Timestamp und Objektversion.
       - OVERPASS_META=no
+
       - OVERPASS_MODE=clone
+
+      # Laufende OSM-Minute-Diffs einspielen
       - 'OVERPASS_DIFF_URL=https://planet.openstreetmap.org/replication/minute/'
       - OVERPASS_UPDATE_SLEEP=3600
+
+      # Nicht für Grundstückspolygone erforderlich.
+      # boundary=cadastral / boundary=lot sind normale Ways/Relations.
       - OVERPASS_USE_AREAS=false
+
       - OVERPASS_STOP_AFTER_INIT=false
 
     healthcheck:
